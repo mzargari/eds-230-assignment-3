@@ -1,8 +1,8 @@
 #' Almond Profit Function
 #'
 #' Compute profit per acre of almond farm using Lobell et al. 2006 model
-#' @param almond_price
-#' @param average_yield
+#' @param almond_price (got this online)
+#' @param average_yield (got this online)
 #' @return profit in dollars per acre of almond farm
 #' @examples
 #' almond_profit(timeseries_climate_dataframe)

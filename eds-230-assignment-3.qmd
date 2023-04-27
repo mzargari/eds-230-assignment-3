@@ -55,13 +55,11 @@ clim_df <- read_table(here("clim.txt")) %>%
 # Source Function
 
 ```{r}
-source(here('almond_yield_response.R'))
+source(here('almond_profit_function.R'))
 ```
 
 # Application of Function to clim.txt
 
 ```{r}
-almond_yield_response(clim_df) |>
-  as_flextable() |>
-  theme_box()
+almond_profit_function(clim_df)
 ```
