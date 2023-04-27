@@ -1,0 +1,67 @@
+---
+title: "Assignment 3: Almond Profit Function"
+author: "Michael Zargari & Guillermo Romero"
+date: today
+execute:
+  warning: false
+format:
+  pdf:
+      toc: false
+      shift-heading-level-by: 2
+      fig-pos: "H"
+      fig-cap-location: top
+      geometry:
+        - top=1in
+        - right=.8in
+        - bottom=1in
+        - left=.8in
+      link-citations: yes
+      linkcolor: blue
+      include-in-header:
+        text: |
+          \usepackage{fancyhdr}
+          \usepackage{titling}
+          \pagestyle{fancy}
+          \fancyhf{}
+          \renewcommand\maketitle{
+            \fancyhead[C]{
+              \thetitle
+              \ifx \theauthor\empty  \else \ – \theauthor \fi
+              \ifx \thedate\empty  \else \ – \thedate \ \fi
+            }
+          }
+          \fancyfoot[C]{\thepage}
+editor:
+  markdown:
+    wrap: sentence
+---
+
+## Loading packages
+
+```{r setup, message=FALSE}
+library(tidyverse) ## Data manipulation
+library(here)      ## Easy filepaths
+library(janitor)   ## Clean column names
+library(flextable) ## Output findings in nice table
+```
+
+## Read in Data
+
+```{r}
+clim_df <- read_table(here("clim.txt")) %>% 
+  clean_names()
+```
+
+# Source Function
+
+```{r}
+source(here('almond_yield_response.R'))
+```
+
+# Application of Function to clim.txt
+
+```{r}
+almond_yield_response(clim_df) |>
+  as_flextable() |>
+  theme_box()
+```
