@@ -19,7 +19,7 @@ almond_profit <- function(climate_data, almond_price = 4036, average_yield = 50)
     
     source(here('almond_yield_response.R'))
     
-    mean_anamoly <- almond_yield_response(climate_data)$mean_anomaly
+    mean_anamoly <- almond_yield_response(climate_data)$almond_yield_anomaly
     
     profit <- (average_yield * mean_anamoly * almond_price)
     
