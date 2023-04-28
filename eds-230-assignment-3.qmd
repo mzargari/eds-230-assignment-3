@@ -43,6 +43,7 @@ library(tidyverse) ## Data manipulation
 library(here)      ## Easy filepaths
 library(janitor)   ## Clean column names
 library(flextable) ## Output findings in nice table
+library(ggthemr)
 ```
 
 ## Read in Data
@@ -61,5 +62,18 @@ source(here('almond_profit_function.R'))
 # Application of Function to clim.txt
 
 ```{r}
-almond_profit_function(clim_df)
+profits_per_year <- almond_profit(clim_df, almond_price = 4036, average_yield = 50)
+
+profit_model <- tibble(
+  year = unique(clim_df$wy),
+  profits = profits_per_year
+)
+profit_model
+```
+
+```{r}
+ggthemr('flat dark', type ='outer', layout= 'scientific')
+ggplot(profit_model, aes(x = year, y = profits)) +
+  geom_col()
+
 ```
