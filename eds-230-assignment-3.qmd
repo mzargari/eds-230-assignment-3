@@ -75,5 +75,4 @@ profit_model
 ggthemr('flat dark', type ='outer', layout= 'scientific')
 ggplot(profit_model, aes(x = year, y = profits)) +
   geom_col()
-
 ```
