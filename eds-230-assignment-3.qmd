@@ -43,7 +43,8 @@ library(tidyverse) ## Data manipulation
 library(here)      ## Easy filepaths
 library(janitor)   ## Clean column names
 library(flextable) ## Output findings in nice table
-library(ggthemr)
+library(ggthemr)   ## Creating cool themes
+library(patchwork) ## Combining graphs side-by-side
 ```
 
 ## Read in Data
@@ -70,9 +71,53 @@ profit_model <- tibble(
 )
 profit_model
 ```
+# Informal Sensitivity Analysis
 
 ```{r}
+
 ggthemr('flat dark', type ='outer', layout= 'scientific')
+# Run the almond_profit function with different parameter values and collect the results
+
+# Holding average yield to 50 Tons
+parameter_values <- runif(n = 10 , min =.01, max = 0.9)
+profit_results <- data.frame()
+
+for (param in parameter_values) {
+  profit <- almond_profit(clim_df, almond_price = param)
+  temp_df <- data.frame(parameter = param, profit = profit)
+  profit_results <- rbind(profit_results, temp_df)
+}
+
+# Use ggplot to create a boxplot of profits against the input parameters
+price_diff_plot <- ggplot(profit_results, aes(x = factor(parameter), y = profit)) +
+  geom_boxplot() +
+  labs(x = "Almond Price ($/acre)", y = "Almond Profit ($/acre)") 
+```
+
+```{r}
+# Run the almond_profit function with different parameter values and collect the results
+average_yield_values <- runif(n = 10 , min = 1, max = 10)
+profit_results <- data.frame()
+
+for (avg_yield in average_yield_values) {
+  profit <- almond_profit(clim_df, average_yield = avg_yield)
+  temp_df <- data.frame(average_yield = avg_yield, profit = profit)
+  profit_results <- rbind(profit_results, temp_df)
+}
+
+# Use ggplot to create a boxplot of profit against the input average yield values
+yield_diff_plot <-ggplot(profit_results, aes(x = factor(average_yield), y = profit)) +
+  geom_boxplot() +
+  labs(x = "Average Yield (tons/farm)", y = "Almond Profit ($/acre)")
+```
+```{r}
+#| echo: false
+price_diff_plot 
+yield_diff_plot
+```
+
+```{r}
+
 ggplot(profit_model, aes(x = year, y = profits)) +
   geom_col()
 ```
